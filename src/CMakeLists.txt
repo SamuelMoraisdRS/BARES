@@ -17,6 +17,12 @@ set( CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} ${GCC_COMPILE_FLAGS} ${PREPROCESSING_F
 #Include dir
 include_directories( libs )
 add_executable(bares
+    "core/bares_manager.cpp"
+    "core/calculate.h"
+    "core/parser.cpp"
+    "core/main.cpp"
+    "libs/messages.cpp"
+    "libs/tokenizer.cpp"
 
 )
 

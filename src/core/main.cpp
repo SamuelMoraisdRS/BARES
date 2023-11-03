@@ -14,7 +14,7 @@ int main () {
 
     expression.calculate(); // retorna o resultado da expressao ou um erro
 
-    std::cout << expression.result() << std::endl;   // resultado ou mensagem de erro
+    std::cout << expression.get_result() << std::endl;   // resultado ou mensagem de erro
     }
 
 }
