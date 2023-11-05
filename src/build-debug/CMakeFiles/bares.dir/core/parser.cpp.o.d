@@ -169,5 +169,4 @@ CMakeFiles/bares.dir/core/parser.cpp.o: \
  /usr/include/c++/11/vector /usr/include/c++/11/bits/stl_uninitialized.h \
  /usr/include/c++/11/bits/stl_vector.h \
  /usr/include/c++/11/bits/stl_bvector.h \
- /usr/include/c++/11/bits/vector.tcc \
- /home/samuel_morais/github-classroom/selan-active-classes/trabalho-05-bares-samuel-e-kael/src/core/../libs/EBNF_validator.h
+ /usr/include/c++/11/bits/vector.tcc

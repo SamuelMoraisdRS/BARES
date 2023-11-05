@@ -6,20 +6,21 @@
 
 #include "../libs/tokenizer.h"
 
-#include "../libs/EBNF_validator.h"
+
 
 class Parser {
 private:
     std::string expr;
     size_t expr_runner = 0;     //!< Idx that'll run through the expression during validation
     StrTokenizer tokenizer;
+    std::vector<std::string> tokens;
     error_msg_e outcome = error_msg_e::NO_ERROR;              //!< Variable that'll indicate if the validation was succesful/what error occurred
 public:
     Parser(std::string & e) : expr {e} {};
     error_msg_e validate_infix();
     void formats_expression();
-    std::string get_formatted_expr() {
-        return expr;
+    std::vector<std::string> get_tokens() {
+        return tokens;
     }
     short get_error_col() {
         return expr_runner;

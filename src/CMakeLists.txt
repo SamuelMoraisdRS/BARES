@@ -23,6 +23,8 @@ add_executable(bares
     "core/main.cpp"
     "libs/messages.cpp"
     "libs/tokenizer.cpp"
+    # "libs/data_structs.cpp"
+    "libs/data_structs.h"
 
 )
 

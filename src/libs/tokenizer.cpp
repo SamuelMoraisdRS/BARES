@@ -5,7 +5,7 @@
 /// @param d lista de caracteres divisores
 /// @param t flag que define se vai ter trimming ou não
 StrTokenizer::StrTokenizer(const std::string i, const std::string d, const bool t)
-    : input{ std::move(i) }, divider{ std::move(d) }, trimming{ std::move(t) } {
+    : input{ std::move(i) }, divider{ " \t+-/^%" }, trimming{ std::move(t) } {
   size_t begin{ 0 };
   size_t end{ 0 };
   current_token = 0;
