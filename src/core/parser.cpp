@@ -1,10 +1,6 @@
 #include "parser.h"
 
 
-void right_trim(std::string& in) {
-    // apaga do ultimo caractere nao branco ate o fim da string
-    in.erase(in.find_last_not_of(" \t") + 1);
-  }
 error_msg_e Parser::validate_infix() {
 
     auto res {check_expression()};
@@ -16,22 +12,20 @@ error_msg_e Parser::validate_infix() {
     
     // Separa os operadores
     
-    std::cout << "CHECAGEM DO ESPACAMENTO DOS OPERADORES : tamanho da expressao" << expr.size() << "\n";
-    std::cout << "  EXPRESSION SEM ESPACAMENTO: " << expr << "\n";
-    
     auto sz {expr.size() - 1};
 
     for (size_t i {0}; i < sz; i++) {
         std::string e {""};
         e += expr[i];
         if (is_operator(e)) {
-            expr.insert(i + 1, " ");
+            expr.insert(i, " ");
+            expr.insert(i + 2, " ");
+            i +=2;
+            sz += 2;
         }
     }
 
-    std::cout << "  EXPRESSION COM ESPACAMENTO: " << expr << "\n";
-
-
+    std::cout << "EXPRESSAO COM ESPACAMENTOS: " << expr << "\n";
 
     StrTokenizer tokenizer(expr, " \t", true);
     tokens = tokenizer.get_token_list();
@@ -148,8 +142,7 @@ error_msg_e Parser::validate_infix() {
         or expr[expr_runner] == '^' or expr[expr_runner] == '%') {
                     return error_msg_e::END;
                    } 
-        
-        
+    
         else {
             std::cout << "size : " <<expr.size() << std::endl;
             return error_msg_e::EXTRA_SYMBOL_AFTER_EXPR;   // Placeholder return
@@ -158,8 +151,9 @@ error_msg_e Parser::validate_infix() {
  error_msg_e Parser::check_wsp() {
     auto situation {error_msg_e::NO_ERROR};
     while (expr[expr_runner] == ' ' or expr[expr_runner] == '\t') {
-        situation = advance_runner();
         std::cout << "Runner (wsp): " << expr_runner << std::endl;
+        situation = advance_runner();
+        
     }
     return situation;
  }
