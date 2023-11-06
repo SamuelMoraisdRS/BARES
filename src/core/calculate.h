@@ -72,19 +72,15 @@ private:
 public:
     void convert_to_posfix(std::vector<std::string> a) {
         
+        // Preenche a fila infixa
         for (std::string e : a) {
             infix_queue.enqueue(e);
         }
-        std::cout << "Fila do infixo\n";
-        for (std::string e : infix_queue.data) {
-            std::cout << e << std::endl;
-        }
-
-        std::cout << "Tamnho do infixo: " << infix_queue.size() << std::endl;
-        auto count {infix_queue.size()};
+      
+        size_t sz {infix_queue.size()};
         
         std::cout << "1*\n";
-        for (size_t i {0}; i < count; i++) {
+        for (size_t i {0}; i < sz; i++) {
 
             std::cout << "entrou\n";
             auto term {infix_queue.dequeue()};
@@ -97,7 +93,7 @@ public:
                 operator_stck.push(term);
                 std::cout << "4*\n";
             } else {
-                while ((not operator_stck.empty()) and higher_precedence(operator_stck.get_upper(), term)) {
+                while ((not operator_stck.empty()) and higher_precedence(term, operator_stck.get_upper())) {
                     posfix_expr.enqueue(operator_stck.pop());
                     std::cout << "5*\n";
                 }

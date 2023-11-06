@@ -12,8 +12,13 @@ std::string get_msg(const short & msg_idx, const short & col) {
 };
 
 bool is_operator(std::string term) {
+    
 
-        return (term == "+" or term == "-" or term == "/" or term == "*" or
-                term == "%" or term == "^");
-    }
+    return (term == "+" or term == "-" or term == "/" or term == "*" or
+            term == "%" or term == "^");
+}
+
+bool is_wsp(const char & term) {
+    return (term == ' ' or term == '\t');
+}
 

@@ -37,7 +37,7 @@ std::string get_msg(const short & msg_idx, const short & col);
 #define __OPERATORS__
 bool is_operator(std::string term);
 
-bool not_operand(const char & term);
+bool is_wsp(const char & term);
 
 
 

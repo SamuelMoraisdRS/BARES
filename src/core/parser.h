@@ -10,27 +10,33 @@
 
 class Parser {
 private:
-    std::string expr;
-    size_t expr_runner = 0;     //!< Idx that'll run through the expression during validation
-    StrTokenizer tokenizer;
-    std::vector<std::string> tokens;
-    error_msg_e outcome = error_msg_e::NO_ERROR;              //!< Variable that'll indicate if the validation was succesful/what error occurred
+    std::string expr;                                   //!< Input expression
+    size_t expr_runner = 0;                             //!< Idx that'll run through the expression during validation
+    StrTokenizer tokenizer;                             //!< Splits the expression into tokens
+    std::vector<std::string> tokens;                    //!< List of tokens containing the expression's elements
+    error_msg_e outcome = error_msg_e::NO_ERROR;        //!< Variable that'll indicate if the validation was succesful/what error occurred
 public:
     Parser(std::string & e) : expr {e} {
 
     };
+    /// Checks if the infix expression is correct, return the corresponding error msg if not.
     error_msg_e validate_infix();
+    /// Formats the validated expression and tokenizes them.
     void formats_expression();
+    /// Returns the token list
     std::vector<std::string> get_tokens() {
         return tokens;
     }
+    /// Returns the collumn in which an error was detected
     short get_error_col() {
         return expr_runner;
     }
 private:
  
-
+ /// Splits the expression into tokens 
  std::string tokenize_expr();
+
+//== These methods will be used to check the EBNF grammar
 
  error_msg_e check_expression();
  error_msg_e check_term();
@@ -40,6 +46,7 @@ private:
  error_msg_e check_wsp();
  error_msg_e check_operator();
 
+ /// Increments the runner variable
  error_msg_e advance_runner();
 };
 

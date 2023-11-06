@@ -18,12 +18,11 @@ namespace br
 
     class BARES {
 private:
-    std::string expression;  //!< Input expression string
-    // Parser validator;         //!< finds sintatical errors and returns a properly formatted infix expression
-    Calculator calc;          //!< Calculates the formatted expression
-    std::string result;      //!< Final expression returned to user
-    bool error_found = false; //!< Indicates if an error was found in the parsing process
-    std::vector<std::string> tokens;
+    std::string expression;             //!< Input expression string
+    Calculator calc;                    //!< Calculates the formatted expression
+    std::string result;                 //!< Final expression returned to user
+    bool error_found = false;           //!< Indicates if an error was found in the parsing process
+    std::vector<std::string> tokens;    
 public:
     ///Ctro
     BARES(std::string input) : expression {input} {

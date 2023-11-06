@@ -10,7 +10,7 @@ error_msg_e Parser::validate_infix() {
  
  void Parser::formats_expression() {
     
-    // Separa os operadores
+    // Separa os operadores (para a tokenização)
     
     auto sz {expr.size() - 1};
 
@@ -20,6 +20,7 @@ error_msg_e Parser::validate_infix() {
         if (is_operator(e)) {
             expr.insert(i, " ");
             expr.insert(i + 2, " ");
+            // Ajusta os indices para colocar os espacos na posicao anterior e posterior ao operador
             i +=2;
             sz += 2;
         }
@@ -33,30 +34,21 @@ error_msg_e Parser::validate_infix() {
 
 
  error_msg_e Parser::advance_runner() {
-    // if (expr_runner == expr.size() - 1) {
-    //     return error_msg_e::UNEXPECTED_END_EXPR;
-    // }
     expr_runner++;
     return error_msg_e::NO_ERROR;
  }
 
 
  error_msg_e Parser::check_expression() {
+
     std::cout << "primeiro check\n";
 
     //Se expressao tem apenas um termo
     outcome = check_term();
     
-    
-    
     check_wsp();
 
         while (expr_runner < expr.size() - 1) {
-            
-        if (outcome != error_msg_e::NO_ERROR and outcome != error_msg_e::END) {
-            std::cout << "outcome : " << outcome << std::endl;
-            break;
-        }
         outcome = check_operator();
         std::cout << "passou na checagem do operador\n";
         if (outcome != error_msg_e::NO_ERROR) {
@@ -74,6 +66,10 @@ error_msg_e Parser::validate_infix() {
         }
 
         outcome = check_wsp();
+        if (outcome != error_msg_e::NO_ERROR and outcome != error_msg_e::END) {
+            std::cout << "outcome : " << outcome << std::endl;
+            break;
+        }
     }
     return outcome;
         
@@ -91,22 +87,7 @@ error_msg_e Parser::validate_infix() {
     } else {
         return check_int();
     }
-    // if (check_int() == error_msg_e::NO_ERROR) {
-    //     std::cout << "checou se é so um inteiro" << std::endl;
-    //     return error_msg_e::NO_ERROR;
-    // } else if (expr_runner == expr.size() - 1) {
-    //     std::cout << "entrou aqui\n";
-    //     return error_msg_e::NO_ERROR;
-    // } else {
-    //     if (expr[expr_runner] != '(') {
-    //         std::cout << "check term (parenteses)" << std::endl;
-    //          return error_msg_e::MISSING_TERM;
-    //     }
-    //     check_expression();
-    //     if (expr[expr_runner] != ')') {
-    //         return error_msg_e::MISSING_LP;
-    //     }
-    // }
+    
  }
  error_msg_e Parser::check_int() {
     std::string curr_char;
@@ -125,12 +106,13 @@ error_msg_e Parser::validate_infix() {
         b = error_msg_e::NO_ERROR;
     }
     return b;
-    // return NO_ERROR;
+ 
  }
-//  short Parser::check_digit_exc_zero();
+
  error_msg_e Parser::check_digit() {
     
     auto curr_char = expr[expr_runner];
+    std::string converted_element {curr_char}; 
     if (curr_char == '0' or curr_char == '1' or curr_char == '2' or curr_char == '3' or
         curr_char == '4' or curr_char == '5' or curr_char == '6' or curr_char == '7' or
         curr_char == '8' or curr_char == '9') {
@@ -138,8 +120,7 @@ error_msg_e Parser::validate_infix() {
             std::cout << "Runner (digit): " << expr_runner << std::endl;
             return advance_runner();
             
-        } else if ( expr_runner == expr.size() or expr[expr_runner] == ' ' or expr[expr_runner] == '+' or expr[expr_runner] == '-' or expr[expr_runner] == '/'
-        or expr[expr_runner] == '^' or expr[expr_runner] == '%') {
+        } else if ( expr_runner == expr.size() or is_operator(converted_element) or is_wsp(curr_char)) {
                     return error_msg_e::END;
                    } 
     
@@ -150,7 +131,7 @@ error_msg_e Parser::validate_infix() {
  }
  error_msg_e Parser::check_wsp() {
     auto situation {error_msg_e::NO_ERROR};
-    while (expr[expr_runner] == ' ' or expr[expr_runner] == '\t') {
+    while (is_wsp(expr[expr_runner])) {
         std::cout << "Runner (wsp): " << expr_runner << std::endl;
         situation = advance_runner();
         
@@ -159,7 +140,7 @@ error_msg_e Parser::validate_infix() {
  }
  error_msg_e Parser::check_operator() {
     if (expr[expr_runner] == '+' or expr[expr_runner] == '-' or expr[expr_runner] == '/'
-        or expr[expr_runner] == '^' or expr[expr_runner] == '%') {
+        or expr[expr_runner] == '^' or expr[expr_runner] == '%' or expr[expr_runner] == '*') {
             std::cout << "checando operador" << std::endl;
             std::cout << expr.size() << std::endl;
             return advance_runner();
