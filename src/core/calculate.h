@@ -50,9 +50,12 @@ private:
                 return false;
             }
         }
-    }
+    };
 
     // == Operations
+    
+   
+
     short div (const short & a, const short & b) {
         return a/b;
     }
@@ -69,6 +72,8 @@ private:
         return std::pow(a,b);
     }
 
+   
+    
 public:
     void convert_to_posfix(std::vector<std::string> a) {
         
@@ -123,7 +128,18 @@ public:
         teste += "\n";
         std::cout << teste;
      }
-
+    
+    std::string evaluate_expr() {
+        for (std::string e : posfix_expr) {
+            if (not is_operator(e)) {
+                operand_stck.push(e);
+            } else {
+                auto operand1 {operand_stck.pop_operands().first};
+                auto operand2 {operand_stck.pop_operands().second};
+                
+            }
+        }
+    }
     ds::Queue<std::string> get_expr_queue() {
         return infix_queue;
     }

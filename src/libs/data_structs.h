@@ -10,17 +10,14 @@ namespace ds
         Queue() = default;
         ~Queue() = default;
         std::vector<ValueType> data; // DEve voltar ao private!!
-        Queue<ValueType> operator=(const std::vector<ValueType> &source)
-        {
+        Queue<ValueType> operator=(const std::vector<ValueType> &source) {
             data = source;
             return *this;
         }
-        void enqueue(const ValueType &a)
-        {
+        void enqueue(const ValueType &a) {
             data.push_back(a);
         }
-        ValueType dequeue()
-        {
+        ValueType dequeue() {
             if (empty())
             {
                 // Nothing
@@ -32,27 +29,22 @@ namespace ds
                 return first;
             }
         }
-        int size()
-        {
+        int size(){
             return data.size();
         }
-        bool empty()
-        {
+        bool empty() {
             return data.empty();
         }
-        ValueType * begin()
-        {
+        ValueType * begin() {
             return &data[0];
         }
-        ValueType *end()
-        {
+        ValueType *end() {
             return &data[data.size() - 1];
         }
     };
 
     template <typename ValueType>
-    class Stack
-    {
+    class Stack {
     private:
         std::vector<ValueType> data;
 
@@ -63,27 +55,23 @@ namespace ds
         {
             return data.back();
         }
-        void push(const ValueType &a)
-        {
+        void push(const ValueType &a) {
             data.push_back(a);
         }
-        ValueType pop()
-        {
+        ValueType pop() {
             auto last{data.back()};
             data.pop_back();
             return last;
         }
         /// A 'pop' method intended specifically for this BARES implementation.
         /// It returns a pair of the two upper elements of the stack
-        std::pair<ValueType, ValueType> pop_operands()
-        {
+        std::pair<ValueType, ValueType> pop_operands() {
             ValueType value1{pop()};
             ValueType value2{pop()};
             return std::make_pair(value1, value2);
         }
 
-        std::vector<ValueType> free_all()
-        {
+        std::vector<ValueType> free_all() {
             std::vector<ValueType> r;
             int counter{0};
             while (counter < size())
@@ -92,12 +80,10 @@ namespace ds
             }
             return r;
         }
-        int size()
-        {
+        int size() {
             return data.size();
         }
-        bool empty()
-        {
+        bool empty() {
             return data.empty();
         }
     };
