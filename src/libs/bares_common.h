@@ -1,5 +1,5 @@
-#ifndef __MESSAGES__
-#define __MESSAGES__
+#ifndef __MSGS__
+#define __MSGS__
 #include <string>
 
 const std::string msgs [8] {
@@ -30,5 +30,27 @@ const std::string msgs [8] {
     };
 
 std::string get_msg(const short & msg_idx, const short & col);
+
+#endif
+
+#ifndef __OPERATORS__
+#define __OPERATORS__
+bool is_operator(std::string term);
+
+bool not_operand(const char & term);
+
+
+
+enum class operator_e {
+SUM = 0,
+MINUS = 0,
+MULT = 1,
+DIV = 1,
+MOD = 1,
+POW
+};
+
+
+
 #endif
 

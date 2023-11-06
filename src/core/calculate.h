@@ -8,17 +8,10 @@
 #include <cmath>
 #include <iostream>
 #include "../libs/data_structs.h"
+#include "../libs/bares_common.h"
 
 using namespace ds;
 
-enum class operator_e {
-    SUM = 0,
-    MINUS = 0,
-    MULT = 1,
-    DIV = 1,
-    MOD = 1,
-    POW
-};
 
 class Calculator {
 private:
@@ -32,10 +25,7 @@ private:
 
     // == Checks operands or operators
 
-    bool is_operator(const std::string & term) {
-        return (term == "+" or term == "-" or term == "/" or term == "*" or
-                term == "%" or term == "^");
-    }
+   
 
     bool higher_precedence (std::string a, std::string b) {
         operator_e operatorA, operatorB;

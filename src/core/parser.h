@@ -2,7 +2,7 @@
 #define __PARSER__
 
 // converte para posfixo e encontra erros de 
-#include "../libs/messages.h"
+#include "../libs/bares_common.h"
 
 #include "../libs/tokenizer.h"
 
@@ -16,7 +16,9 @@ private:
     std::vector<std::string> tokens;
     error_msg_e outcome = error_msg_e::NO_ERROR;              //!< Variable that'll indicate if the validation was succesful/what error occurred
 public:
-    Parser(std::string & e) : expr {e} {};
+    Parser(std::string & e) : expr {e} {
+
+    };
     error_msg_e validate_infix();
     void formats_expression();
     std::vector<std::string> get_tokens() {
@@ -26,23 +28,19 @@ public:
         return expr_runner;
     }
 private:
+ 
+
  std::string tokenize_expr();
+
  error_msg_e check_expression();
  error_msg_e check_term();
  error_msg_e check_int();
  error_msg_e check_natural_num();
-//  error_msg_e check_digit_exc_zero();
  error_msg_e check_digit();
  error_msg_e check_wsp();
  error_msg_e check_operator();
 
- error_msg_e advance_runner() {
-    // if (expr_runner == expr.size() - 1) {
-    //     return error_msg_e::UNEXPECTED_END_EXPR;
-    // }
-    expr_runner++;
-    return error_msg_e::NO_ERROR;
- }
+ error_msg_e advance_runner();
 };
 
 #endif  // __PARSER__

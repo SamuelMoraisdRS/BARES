@@ -21,7 +21,7 @@ add_executable(bares
     "core/calculate.h"
     "core/parser.cpp"
     "core/main.cpp"
-    "libs/messages.cpp"
+    "libs/bares_common.cpp"
     "libs/tokenizer.cpp"
     # "libs/data_structs.cpp"
     "libs/data_structs.h"

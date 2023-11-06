@@ -6,33 +6,59 @@ void right_trim(std::string& in) {
     in.erase(in.find_last_not_of(" \t") + 1);
   }
 error_msg_e Parser::validate_infix() {
-    // "exp" é a expressão recebida em bares_manager
-    // check_
-    // expr = exp;
+
     auto res {check_expression()};
-    // formats_expression();
-    // if (expr_runner == expr.size() - 1) {
-    //     res = error_msg_e::NO_ERROR;
-    // }
+   
     return res;   
 }
  
-
  void Parser::formats_expression() {
+    
+    // Separa os operadores
+    
+    std::cout << "CHECAGEM DO ESPACAMENTO DOS OPERADORES : tamanho da expressao" << expr.size() << "\n";
+    std::cout << "  EXPRESSION SEM ESPACAMENTO: " << expr << "\n";
+    
+    auto sz {expr.size() - 1};
+
+    for (size_t i {0}; i < sz; i++) {
+        std::string e {""};
+        e += expr[i];
+        if (is_operator(e)) {
+            expr.insert(i + 1, " ");
+        }
+    }
+
+    std::cout << "  EXPRESSION COM ESPACAMENTO: " << expr << "\n";
+
+
+
     StrTokenizer tokenizer(expr, " \t", true);
     tokens = tokenizer.get_token_list();
  }
+
+
+ error_msg_e Parser::advance_runner() {
+    // if (expr_runner == expr.size() - 1) {
+    //     return error_msg_e::UNEXPECTED_END_EXPR;
+    // }
+    expr_runner++;
+    return error_msg_e::NO_ERROR;
+ }
+
+
  error_msg_e Parser::check_expression() {
     std::cout << "primeiro check\n";
+
+    //Se expressao tem apenas um termo
     outcome = check_term();
     
-    // If expression contains only one term
+    
     
     check_wsp();
 
         while (expr_runner < expr.size() - 1) {
             
-        
         if (outcome != error_msg_e::NO_ERROR and outcome != error_msg_e::END) {
             std::cout << "outcome : " << outcome << std::endl;
             break;
@@ -131,7 +157,7 @@ error_msg_e Parser::validate_infix() {
  }
  error_msg_e Parser::check_wsp() {
     auto situation {error_msg_e::NO_ERROR};
-    while (expr[expr_runner] == ' ') {
+    while (expr[expr_runner] == ' ' or expr[expr_runner] == '\t') {
         situation = advance_runner();
         std::cout << "Runner (wsp): " << expr_runner << std::endl;
     }
