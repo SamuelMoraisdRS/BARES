@@ -28,7 +28,7 @@ public:
         return tokens;
     }
     /// Returns the collumn in which an error was detected
-    short get_error_col() {
+    int get_error_col() {
         return expr_runner;
     }
 private:

@@ -1,7 +1,7 @@
 #include "bares_common.h"
 #include <iostream>
 
-std::string get_msg(const short & msg_idx, const short & col) {
+std::string get_msg(const short & msg_idx, const short & col = -1) {
     std::string sufix;
     if (msg_idx < 4) {
          sufix += std::to_string(col) + ")!";

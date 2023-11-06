@@ -26,15 +26,13 @@ using namespace br;
         if (not error_found) {
             std::cout << "Convertendo...\n";
             calc.convert_to_posfix(tokens);
-            std::string test;
-            for (std::string e : calc.get_posfix()) {
-                test += e + " ";
-            } 
+            result = calc.evaluate_expr();
         // std::cout << "Expressão pós-fixa: " << test << std::endl;
         } else {
 
         }
     }
+
 
 
 

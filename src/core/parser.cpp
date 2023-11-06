@@ -17,7 +17,7 @@ error_msg_e Parser::validate_infix() {
     for (size_t i {0}; i < sz; i++) {
         std::string e {""};
         e += expr[i];
-        if (is_operator(e)) {
+        if (is_operator(e) or e == "(" or e == ")") {
             expr.insert(i, " ");
             expr.insert(i + 2, " ");
             // Ajusta os indices para colocar os espacos na posicao anterior e posterior ao operador
