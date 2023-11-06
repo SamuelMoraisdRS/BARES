@@ -69,7 +69,7 @@ namespace ds
         }
         ValueType pop()
         {
-            auto last{data[data.size() - 1]};
+            auto last{data.back()};
             data.pop_back();
             return last;
         }

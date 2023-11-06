@@ -90,10 +90,13 @@ public:
             std::cout << e << std::endl;
         }
 
-        
+        std::cout << "Tamnho do infixo: " << infix_queue.size() << std::endl;
+        auto count {infix_queue.size()};
         
         std::cout << "1*\n";
-        for (size_t i {0}; i++; i < infix_queue.size()-1) {
+        for (size_t i {0}; i < count; i++) {
+
+            std::cout << "entrou\n";
             auto term {infix_queue.dequeue()};
             std::cout << "2*\n";
             std::cout << "termo: " << term << std::endl;
@@ -113,16 +116,26 @@ public:
             }
             std::cout << "7*\n";
         }
-        while (not operator_stck.empty()) {
-            posfix_expr.enqueue(operand_stck.pop());
+
+    	std::cout << "saiu\n" << operator_stck.size() << "\n";
+
+        while (not operator_stck.size() == 0) {
+            std::cout << "entrou na parte final\n";
+            posfix_expr.enqueue(operator_stck.pop());
         }
+        std::cout << "parte final\n";
+
+        std::cout << posfix_expr.data.back() << std::endl;
 
         std::cout << "MOstrando a expressao pos fixa\n";
         std::cout << posfix_expr.size();
-
-        for (std::string e : posfix_expr) {
+        std::string teste;
+        for (std::string e : posfix_expr.data) {
+            teste += e + " ";
             std::cout << e << std::endl;
         }
+        teste += "\n";
+        std::cout << teste;
      }
 
     ds::Queue<std::string> get_expr_queue() {
