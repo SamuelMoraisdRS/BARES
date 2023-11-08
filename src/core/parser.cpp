@@ -12,7 +12,9 @@ error_msg_e Parser::validate_infix() {
     
     // Separa os operadores (para a tokenização)
     
-    auto sz {expr.size() - 1};
+    auto sz {expr.size()};
+
+    expr += " ";
 
     for (size_t i {0}; i < sz; i++) {
         std::string e {""};
@@ -25,6 +27,7 @@ error_msg_e Parser::validate_infix() {
             sz += 2;
         }
     }
+
 
     std::cout << "EXPRESSAO COM ESPACAMENTOS: " << expr << "\n";
 
@@ -47,7 +50,7 @@ error_msg_e Parser::validate_infix() {
     outcome = check_term();
     
     check_wsp();
-
+        
         while (expr_runner < expr.size() - 1) {
         outcome = check_operator();
         std::cout << "passou na checagem do operador\n";
@@ -78,11 +81,16 @@ error_msg_e Parser::validate_infix() {
  error_msg_e Parser::check_term() {
     check_wsp();
     if (expr[expr_runner] == '(') {
+        advance_runner();
         check_wsp();
         check_expression();
         check_wsp();
+        std::cout << "chegou no parentese de fechamento\n";
         if (expr[expr_runner] != ')') {
             return error_msg_e::MISSING_LP;
+        } else {
+            advance_runner();
+            return NO_ERROR;
         }
     } else {
         return check_int();
@@ -112,6 +120,7 @@ error_msg_e Parser::validate_infix() {
  error_msg_e Parser::check_digit() {
     
     auto curr_char = expr[expr_runner];
+    std::cout << "Qual o digito agr: "<< curr_char << std::endl;
     std::string converted_element {curr_char}; 
     if (curr_char == '0' or curr_char == '1' or curr_char == '2' or curr_char == '3' or
         curr_char == '4' or curr_char == '5' or curr_char == '6' or curr_char == '7' or
@@ -134,7 +143,6 @@ error_msg_e Parser::validate_infix() {
     while (is_wsp(expr[expr_runner])) {
         std::cout << "Runner (wsp): " << expr_runner << std::endl;
         situation = advance_runner();
-        
     }
     return situation;
  }

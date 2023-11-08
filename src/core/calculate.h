@@ -7,6 +7,7 @@
 
 #include <cmath>
 #include <iostream>
+#include <string>
 #include "../libs/data_structs.h"
 #include "../libs/bares_common.h"
 
@@ -121,22 +122,51 @@ public:
         
         // Preenche a fila infixa
         for (std::string e : a) {
+            std::cout << "preenchendo a fila da infixa: " << e << "\n";
             infix_queue.enqueue(e);
         }
       
         auto sz {infix_queue.size()};
         
-        for (auto i {0}; i < sz; i++) {
+        while (not infix_queue.empty()) {
 
-
+            ds::Stack<std::string> nested_opr;
             auto term {infix_queue.dequeue()};
-           
-            if (not is_operator(term)) {    
+
+            auto minus_pos {term.find(",")};
+
+            if (minus_pos != std::string::npos) {
+                term.replace(minus_pos, 1, "-");
+            }
+            if (term == "(") {
+                Stack<std::string> parent_oprs;
+                while (term != ")") {
+                    term = infix_queue.dequeue();
+                    std::cout << "term atual (parenteses): " << term << "\n";
+                    if (not is_operator(term) and term != ")") {
+                        posfix_expr.enqueue(term);
+                    } else if (parent_oprs.empty()){
+                        parent_oprs.push(term);
+                    } else {
+                        while ((not parent_oprs.empty()) and higher_precedence(term, parent_oprs.get_upper())) {
+                        posfix_expr.enqueue(parent_oprs.pop());
+                    // std::cout << "5*\n";
+                }
+                parent_oprs.push(term);
+                    }
+                }
+                while (not operator_stck.empty()) {
+                    std::cout << "upper element (operator_stack): " << operator_stck.get_upper() << "\n";
+                    posfix_expr.enqueue(operator_stck.pop());
+                }
+
+            } else if (not is_operator(term)) {    
+                std::cout << "termo atual (fora dos parenteses): " << term << "\n";
                 posfix_expr.enqueue(term);
             } else if (operator_stck.empty()) {
                 operator_stck.push(term);
                 // std::cout << "4*\n";
-            } else {
+            }  else {
                 while ((not operator_stck.empty()) and higher_precedence(term, operator_stck.get_upper())) {
                     posfix_expr.enqueue(operator_stck.pop());
                     // std::cout << "5*\n";
@@ -152,17 +182,17 @@ public:
         while (not operator_stck.size() == 0) {
             posfix_expr.enqueue(operator_stck.pop());
         }
-        // std::cout << posfix_expr.data.back() << std::endl;
+        std::cout << posfix_expr.data.back() << std::endl;
 
-        // std::cout << "Mostrando a expressao pos fixa\n";
-        // std::cout << posfix_expr.size();
-        // std::string teste;
-        // for (std::string e : posfix_expr.data) {
-        //     teste += e + " ";
-        //     std::cout << e << std::endl;
-        // }
-        // teste += "\n";
-        // std::cout << teste;
+        std::cout << "Mostrando a expressao pos fixa\n";
+        std::cout << posfix_expr.size();
+        std::string teste;
+        for (std::string e : posfix_expr.data) {
+            teste += e + " ";
+            std::cout << e << std::endl;
+        }
+        teste += "\n";
+        std::cout << teste;
      }
     
     std::string evaluate_expr() {

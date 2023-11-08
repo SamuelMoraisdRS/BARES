@@ -72,13 +72,11 @@ namespace ds
         }
 
         std::vector<ValueType> free_all() {
-            std::vector<ValueType> r;
-            int counter{0};
-            while (counter < size())
-            {
-                r.push_back(pop());
+            std::vector<ValueType> vec;
+            for (ValueType e : data) {
+                vec.push_back(e);
             }
-            return r;
+            return vec;
         }
         int size() {
             return data.size();
