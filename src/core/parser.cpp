@@ -11,8 +11,12 @@ error_msg_e Parser::validate_infix() {
  void Parser::formats_expression() {
     
     // Separa os operadores (para a tokenização)
+
+    // Necessário para identificar corretamente o erro de inteiro fora do range aceito
     auto expr_backup {expr};
     auto sz {expr.size()};
+
+    // Adicionado para incluir o caso de um ')' encerrar a expressão
     expr += " ";
     for (size_t i {0}; i < sz; i++) {
         std::string e {""};

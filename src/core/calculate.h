@@ -115,6 +115,34 @@ private:
    
     
 public:
+
+    void convert_nested_expr(Stack<std::string> previous_operators) {
+        Stack<std::string> parent_oprs;
+        std::string term {"("};
+            while (term != ")") {
+                term = infix_queue.dequeue();
+                std::cout << "term atual (parenteses): " << term << "\n";
+                if (term == "(") {
+                    convert_nested_expr(parent_oprs);
+                }
+                if (not is_operator(term) and term != ")") {
+                    posfix_expr.enqueue(term);
+                } else if (parent_oprs.empty()){
+                    parent_oprs.push(term);
+                } else {
+                    while ((not parent_oprs.empty()) and higher_precedence(term, parent_oprs.get_upper())) {
+                    posfix_expr.enqueue(parent_oprs.pop());
+                    // std::cout << "5*\n";
+                    }
+                 parent_oprs.push(term);
+                }
+            }
+            while (not previous_operators.empty()) {
+                std::cout << "upper element (previous_operator): " << previous_operators.get_upper() << "\n";
+                posfix_expr.enqueue(previous_operators.pop());
+            }
+    }
+
     error_msg_e convert_to_posfix(std::vector<std::string> a) {
         
         // Preenche a fila infixa
@@ -135,27 +163,7 @@ public:
                 term.replace(minus_pos, 1, "-");
             }
             if (term == "(") {
-                Stack<std::string> parent_oprs;
-                while (term != ")") {
-                    term = infix_queue.dequeue();
-                    std::cout << "term atual (parenteses): " << term << "\n";
-                    if (not is_operator(term) and term != ")") {
-                        posfix_expr.enqueue(term);
-                    } else if (parent_oprs.empty()){
-                        parent_oprs.push(term);
-                    } else {
-                        while ((not parent_oprs.empty()) and higher_precedence(term, parent_oprs.get_upper())) {
-                        posfix_expr.enqueue(parent_oprs.pop());
-                    // std::cout << "5*\n";
-                }
-                parent_oprs.push(term);
-                    }
-                }
-                while (not operator_stck.empty()) {
-                    std::cout << "upper element (operator_stack): " << operator_stck.get_upper() << "\n";
-                    posfix_expr.enqueue(operator_stck.pop());
-                }
-
+                convert_nested_expr(operator_stck);
             } else if (not is_operator(term)) {    
                 std::cout << "termo atual (fora dos parenteses): " << term << "\n";
                 posfix_expr.enqueue(term);
