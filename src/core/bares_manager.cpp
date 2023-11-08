@@ -4,9 +4,11 @@ using namespace br;
     void BARES::parses() {
         Parser validator(expression);
         auto outcome {validator.validate_infix()};
+        validator.formats_expression();
         auto error_pos {validator.get_error_col()};
+        outcome = validator.get_outcome();
+        std::cout << "Outcome (no manager) : " << outcome << "\n";
         if (outcome == error_msg_e::NO_ERROR) {
-            validator.formats_expression();
             tokens = validator.get_tokens();
             std::cout << "TAMANHO DO TOKENS " << tokens.size() << std::endl;
             std::cout << "Tokens : \n";

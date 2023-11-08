@@ -1,3 +1,4 @@
+
 #ifndef __MSGS__
 #define __MSGS__
 #include <string>
@@ -13,8 +14,6 @@ const std::string msgs [8] {
         "Numeric overflow error!"
     };
 
-
-    
     /// Tracks the error type
     enum  error_msg_e : short {
         MISSING_TERM = 0,
@@ -29,17 +28,25 @@ const std::string msgs [8] {
         END
     };
 
+    const int UPPER_VALUE_RANGE {32767};
+    const int LOWER_VALUE_RANGE {-32768};
+
+
 std::string get_msg(const short & msg_idx, const short & col);
 
 #endif
 
 #ifndef __OPERATORS__
 #define __OPERATORS__
+
+
+
+
 bool is_operator(std::string term);
 
+bool is_operator(char term);
+
 bool is_wsp(const char & term);
-
-
 
 enum class operator_e {
 SUM = 0,

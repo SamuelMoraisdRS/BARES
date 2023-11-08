@@ -31,6 +31,10 @@ public:
     int get_error_col() {
         return expr_runner;
     }
+
+    error_msg_e get_outcome() {
+        return outcome;
+    }
 private:
  
  /// Splits the expression into tokens 

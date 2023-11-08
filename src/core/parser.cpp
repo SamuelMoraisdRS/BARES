@@ -10,12 +10,9 @@ error_msg_e Parser::validate_infix() {
  
  void Parser::formats_expression() {
     
-    // Separa os operadores (para a tokenização)
-    
+    // Separa os operadores (para a tokenização
     auto sz {expr.size()};
-
     expr += " ";
-
     for (size_t i {0}; i < sz; i++) {
         std::string e {""};
         e += expr[i];
@@ -27,12 +24,22 @@ error_msg_e Parser::validate_infix() {
             sz += 2;
         }
     }
-
-
+    // debug
     std::cout << "EXPRESSAO COM ESPACAMENTOS: " << expr << "\n";
 
     StrTokenizer tokenizer(expr, " \t", true);
     tokens = tokenizer.get_token_list();
+
+    for (std::string e : tokens) {
+        if (not is_operator(e) and e != "(" and e != ")") {
+            auto numeric_value {std::stoll(e)};
+            std::cout << "checando se : " << numeric_value << " está no range\n";
+            if ((numeric_value > UPPER_VALUE_RANGE) or (numeric_value < LOWER_VALUE_RANGE)) {
+                outcome = error_msg_e::INTEGER_OUT_OF_RANGE;
+                expr_runner = expr.find(e);
+            } 
+       } 
+    }
  }
 
 
@@ -51,6 +58,7 @@ error_msg_e Parser::validate_infix() {
     
     check_wsp();
         
+        // Se a expressão não acabou
         while (expr_runner < expr.size() - 1) {
         outcome = check_operator();
         std::cout << "passou na checagem do operador\n";
@@ -120,8 +128,9 @@ error_msg_e Parser::validate_infix() {
  error_msg_e Parser::check_digit() {
     
     auto curr_char = expr[expr_runner];
+
     std::cout << "Qual o digito agr: "<< curr_char << std::endl;
-    std::string converted_element {curr_char}; 
+    
     if (curr_char == '0' or curr_char == '1' or curr_char == '2' or curr_char == '3' or
         curr_char == '4' or curr_char == '5' or curr_char == '6' or curr_char == '7' or
         curr_char == '8' or curr_char == '9') {
@@ -129,7 +138,7 @@ error_msg_e Parser::validate_infix() {
             std::cout << "Runner (digit): " << expr_runner << std::endl;
             return advance_runner();
             
-        } else if ( expr_runner == expr.size() or is_operator(converted_element) or is_wsp(curr_char)) {
+        } else if ( expr_runner == expr.size() or is_operator(curr_char) or is_wsp(curr_char)) {
                     return error_msg_e::END;
                    } 
     

@@ -20,8 +20,7 @@ private:
     ds::Stack<int> operand_stck;
     ds::Stack<std::string> operator_stck;
     ds::Queue<std::string> posfix_expr;
-    const int upper_value_range = 32767;
-    const int lower_value_range = -32768;
+    
     error_msg_e expression_error = error_msg_e::NO_ERROR;
 
     private:
@@ -59,8 +58,6 @@ private:
 
     // == Operations
     
-   
-
     int div (const int & a, const int & b) {
         return b/a;
     }
@@ -125,9 +122,8 @@ public:
             std::cout << "preenchendo a fila da infixa: " << e << "\n";
             infix_queue.enqueue(e);
         }
-      
-        auto sz {infix_queue.size()};
-        
+
+             
         while (not infix_queue.empty()) {
 
             ds::Stack<std::string> nested_opr;
@@ -176,30 +172,30 @@ public:
             }
             // std::cout << "7*\n";
         }
-
     
-
-        while (not operator_stck.size() == 0) {
+        while (not operator_stck.empty()) {
             posfix_expr.enqueue(operator_stck.pop());
         }
-        std::cout << posfix_expr.data.back() << std::endl;
+        std::cout << posfix_expr.back() << std::endl;
 
-        std::cout << "Mostrando a expressao pos fixa\n";
-        std::cout << posfix_expr.size();
-        std::string teste;
-        for (std::string e : posfix_expr.data) {
-            teste += e + " ";
-            std::cout << e << std::endl;
-        }
-        teste += "\n";
-        std::cout << teste;
+        
+
+        // std::cout << "Mostrando a expressao pos fixa\n";
+        // std::cout << posfix_expr.size();
+        // std::string teste;
+        // for (std::string e : posfix_expr.data) {
+        //     teste += e + " ";
+        //     std::cout << e << std::endl;
+        // }
+        // teste += "\n";
+        // std::cout << teste;
      }
     
     std::string evaluate_expr() {
         while (not posfix_expr.empty()) {
             auto e {posfix_expr.dequeue()};
             if (not is_operator(e)) {
-                operand_stck.push(std::stoi(e));
+                operand_stck.push(std::stol(e));
             } else {
                 std::pair<int,int> operands {operand_stck.pop_operands()};
                 auto operand1 {operands.first};
@@ -210,7 +206,7 @@ public:
         }
         auto value {operand_stck.pop()};
         auto result {std::to_string(value)};
-        if (value > upper_value_range or value < lower_value_range) {
+        if (value > UPPER_VALUE_RANGE or value < LOWER_VALUE_RANGE) {
             expression_error = NUMERIC_OVERFLOW;
         }
         if (expression_error != NO_ERROR) {
@@ -222,9 +218,6 @@ public:
         return infix_queue;
     }
 
-    std::vector<std::string> get_posfix() {
-        return posfix_expr.data;
-    }
 };
 
 #endif  // __CALCULATE__
