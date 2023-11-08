@@ -10,7 +10,8 @@ error_msg_e Parser::validate_infix() {
  
  void Parser::formats_expression() {
     
-    // Separa os operadores (para a tokenização
+    // Separa os operadores (para a tokenização)
+    auto expr_backup {expr};
     auto sz {expr.size()};
     expr += " ";
     for (size_t i {0}; i < sz; i++) {
@@ -36,7 +37,7 @@ error_msg_e Parser::validate_infix() {
             std::cout << "checando se : " << numeric_value << " está no range\n";
             if ((numeric_value > UPPER_VALUE_RANGE) or (numeric_value < LOWER_VALUE_RANGE)) {
                 outcome = error_msg_e::INTEGER_OUT_OF_RANGE;
-                expr_runner = expr.find(e);
+                expr_runner = expr_backup.find(e);
             } 
        } 
     }
