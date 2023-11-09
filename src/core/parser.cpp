@@ -2,10 +2,13 @@
 
 
 error_msg_e Parser::validate_infix() {
-
+    
     auto res {check_expression()};
    
-    return res;   
+    return res;  
+    
+
+     
 }
  
  void Parser::formats_expression() {
@@ -24,6 +27,7 @@ error_msg_e Parser::validate_infix() {
         if (is_operator(e) or e == "(" or e == ")") {
             expr.insert(i, " ");
             expr.insert(i + 2, " ");
+
             i +=2;
             sz += 2;
         }
