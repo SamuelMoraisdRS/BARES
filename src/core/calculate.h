@@ -116,27 +116,40 @@ private:
     
 public:
 
-    void convert_nested_expr(Stack<std::string> previous_operators) {
-        Stack<std::string> parent_oprs;
-        std::string term {"("};
-            while (term != ")") {
+    void convert_nested_expr(Stack<std::string> & previous_operators) {
+        Stack<std::string> parenthesis_oprs;
+        std::string term {""};
+                while (term != ")") {
                 term = infix_queue.dequeue();
-                std::cout << "term atual (parenteses): " << term << "\n";
-                if (term == "(") {
-                    convert_nested_expr(parent_oprs);
-                }
-                if (not is_operator(term) and term != ")") {
+                
+                if (term == ")") {
+                    break;
+                } else if (term == "(") {
+                    std::cout << "entrou na recursao\n"; 
+                    convert_nested_expr(parenthesis_oprs);
+                } else if (not is_operator(term) and term != ")") {
+                    std::cout << "term inserido (parenteses): " << term << "\n";
                     posfix_expr.enqueue(term);
-                } else if (parent_oprs.empty()){
-                    parent_oprs.push(term);
+                } else if (parenthesis_oprs.empty()){
+                    parenthesis_oprs.push(term);
+                    std::cout << "OPERADOR "<< term << std::endl;
                 } else {
-                    while ((not parent_oprs.empty()) and higher_precedence(term, parent_oprs.get_upper())) {
-                    posfix_expr.enqueue(parent_oprs.pop());
+                    if (term != ")") {
+                        while ((not parenthesis_oprs.empty()) and higher_precedence(term, parenthesis_oprs.get_upper())) {
+                    posfix_expr.enqueue(parenthesis_oprs.pop());
+                    std::cout << "OPERADOR "<< posfix_expr.back() << std::endl;
                     // std::cout << "5*\n";
                     }
-                 parent_oprs.push(term);
+                 parenthesis_oprs.push(term);
+                    } else {
+
+                    }
+                    
                 }
             }
+            while (not parenthesis_oprs.empty()) {
+                posfix_expr.enqueue(parenthesis_oprs.pop());
+            } 
             while (not previous_operators.empty()) {
                 std::cout << "upper element (previous_operator): " << previous_operators.get_upper() << "\n";
                 posfix_expr.enqueue(previous_operators.pop());
@@ -157,13 +170,12 @@ public:
             ds::Stack<std::string> nested_opr;
             auto term {infix_queue.dequeue()};
 
-            auto minus_pos {term.find(",")};
-
-            if (minus_pos != std::string::npos) {
-                term.replace(minus_pos, 1, "-");
-            }
             if (term == "(") {
                 convert_nested_expr(operator_stck);
+                for (std::string e : posfix_expr.data) {
+                    std::cout << "expressao posfixa dps dos parenteses: " << e << " ";
+                }
+                std::cout << std::endl;
             } else if (not is_operator(term)) {    
                 std::cout << "termo atual (fora dos parenteses): " << term << "\n";
                 posfix_expr.enqueue(term);
@@ -184,25 +196,26 @@ public:
         while (not operator_stck.empty()) {
             posfix_expr.enqueue(operator_stck.pop());
         }
-        std::cout << posfix_expr.back() << std::endl;
+        // std::cout << posfix_expr.back() << std::endl;
 
         
 
-        // std::cout << "Mostrando a expressao pos fixa\n";
-        // std::cout << posfix_expr.size();
-        // std::string teste;
-        // for (std::string e : posfix_expr.data) {
-        //     teste += e + " ";
-        //     std::cout << e << std::endl;
-        // }
-        // teste += "\n";
-        // std::cout << teste;
+        std::cout << "Mostrando a expressao pos fixa\n";
+        std::cout << posfix_expr.size();
+        std::string teste;
+        for (std::string e : posfix_expr.data) {
+            teste += e + " ";
+            std::cout << e << std::endl;
+        }
+        teste += "\n";
+        std::cout << teste;
      }
     
     std::string evaluate_expr() {
         while (not posfix_expr.empty()) {
             auto e {posfix_expr.dequeue()};
             if (not is_operator(e)) {
+                std::cout << "Valor a ser calculado: " << e << std::endl;
                 operand_stck.push(std::stol(e));
             } else {
                 std::pair<int,int> operands {operand_stck.pop_operands()};

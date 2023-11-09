@@ -15,16 +15,15 @@ error_msg_e Parser::validate_infix() {
     // Necessário para identificar corretamente o erro de inteiro fora do range aceito
     auto expr_backup {expr};
     auto sz {expr.size()};
-
-    // Adicionado para incluir o caso de um ')' encerrar a expressão
     expr += " ";
+
+    // Adds white spaces between operands and operators, to facilitate the tokenization
     for (size_t i {0}; i < sz; i++) {
         std::string e {""};
         e += expr[i];
         if (is_operator(e) or e == "(" or e == ")") {
             expr.insert(i, " ");
             expr.insert(i + 2, " ");
-            // Ajusta os indices para colocar os espacos na posicao anterior e posterior ao operador
             i +=2;
             sz += 2;
         }
@@ -32,10 +31,15 @@ error_msg_e Parser::validate_infix() {
     // debug
     std::cout << "EXPRESSAO COM ESPACAMENTOS: " << expr << "\n";
 
+    // Tokenizes the expression
     StrTokenizer tokenizer(expr, " \t", true);
     tokens = tokenizer.get_token_list();
 
-    for (std::string e : tokens) {
+    // Converts the unary minus into a proper integer and spots the 'invalid integer' error
+    for (std::string & e : tokens) {
+        if (e.find(",") != std::string::npos) {
+            e.replace(e.find(","),1,"-");
+        }
         if (not is_operator(e) and e != "(" and e != ")") {
             auto numeric_value {std::stoll(e)};
             std::cout << "checando se : " << numeric_value << " está no range\n";

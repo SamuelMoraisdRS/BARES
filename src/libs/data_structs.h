@@ -5,11 +5,13 @@ namespace ds
     template <typename ValueType>
     class Queue {
     private:
-    std::vector<ValueType> data;
+    
     public:
         Queue() = default;
         ~Queue() = default;
         
+
+        std::vector<ValueType> data;
         Queue<ValueType> operator=(const std::vector<ValueType> &source) {
             data = source;
             return *this;
@@ -29,6 +31,9 @@ namespace ds
                 return first;
             }
         }
+
+        /// 
+    
         /// Returns the number of elements in the queue
         int size() {
             return data.size();
@@ -52,11 +57,15 @@ namespace ds
     template <typename ValueType>
     class Stack {
     private:
-        std::vector<ValueType> data;
+        
 
     public:
         Stack() = default;
         ~Stack() = default;
+
+
+        std::vector<ValueType> data;
+        
         ValueType get_upper() {
             return data.back();
         }
