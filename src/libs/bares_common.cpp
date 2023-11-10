@@ -8,7 +8,7 @@ std::string get_msg(const short & msg_idx, const short & col = -1) {
     } else if (msg_idx == 10) {
         return "";
     }
-    return (msgs[msg_idx] + sufix + "\n");
+    return (msgs[msg_idx] + sufix);
 };
 
 bool is_operator(std::string term) {

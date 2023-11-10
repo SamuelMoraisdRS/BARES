@@ -5,6 +5,9 @@ error_msg_e Parser::validate_infix() {
     
     auto res {check_expression()};
    
+//    std::cout << "res: "<< res << std::endl;
+
+    outcome = res;
     return res;  
     
 
@@ -33,7 +36,7 @@ error_msg_e Parser::validate_infix() {
         }
     }
     // debug
-    std::cout << "EXPRESSAO COM ESPACAMENTOS: " << expr << "\n";
+    // std::cout << "EXPRESSAO COM ESPACAMENTOS: " << expr << "\n";
 
     // Tokenizes the expression
     StrTokenizer tokenizer(expr, " \t", true);
@@ -46,7 +49,7 @@ error_msg_e Parser::validate_infix() {
         }
         if (not is_operator(e) and e != "(" and e != ")") {
             auto numeric_value {std::stoll(e)};
-            std::cout << "checando se : " << numeric_value << " está no range\n";
+            // std::cout << "checando se : " << numeric_value << " está no range\n";
             if ((numeric_value > UPPER_VALUE_RANGE) or (numeric_value < LOWER_VALUE_RANGE)) {
                 outcome = error_msg_e::INTEGER_OUT_OF_RANGE;
                 expr_runner = expr_backup.find(e);
@@ -64,17 +67,23 @@ error_msg_e Parser::validate_infix() {
 
  error_msg_e Parser::check_expression() {
 
-    std::cout << "primeiro check\n";
+    // std::cout << "primeiro check\n";
 
     //Se expressao tem apenas um termo
     outcome = check_term();
+
+    if (outcome != NO_ERROR) {
+        // std::cout << "erro no primeiro check\n";
+        return outcome;
+    }
+    // std::cout << "seguiu em frente\n";
     
     check_wsp();
         
         // Se a expressão não acabou
         while (expr_runner < expr.size() - 1) {
         outcome = check_operator();
-        std::cout << "passou na checagem do operador\n";
+        // std::cout << "passou na checagem do operador\n";
         if (outcome != error_msg_e::NO_ERROR) {
             break;
         }
@@ -83,7 +92,7 @@ error_msg_e Parser::validate_infix() {
             break;
         }
         
-        std::cout << "ultimo check\n";
+        // std::cout << "ultimo check\n";
         outcome = check_term();
         if (outcome != error_msg_e::NO_ERROR) {
             break;
@@ -91,7 +100,7 @@ error_msg_e Parser::validate_infix() {
 
         outcome = check_wsp();
         if (outcome != error_msg_e::NO_ERROR and outcome != error_msg_e::END) {
-            std::cout << "outcome : " << outcome << std::endl;
+            // std::cout << "outcome : " << outcome << std::endl;
             break;
         }
     }
@@ -106,7 +115,7 @@ error_msg_e Parser::validate_infix() {
         check_wsp();
         check_expression();
         check_wsp();
-        std::cout << "chegou no parentese de fechamento\n";
+        // std::cout << "chegou no parentese de fechamento\n";
         if (expr[expr_runner] != ')') {
             return error_msg_e::MISSING_LP;
         } else {
@@ -128,9 +137,15 @@ error_msg_e Parser::validate_infix() {
  }
  error_msg_e Parser::check_natural_num() {
     error_msg_e b;
-    do {
+    if (expr[expr_runner] == '-') {
+        // std::cout << "char atual: " << expr[expr_runner] <<std::endl;
+        expr_runner ++;
+        return MISSING_TERM;
+    }
+    b = check_digit();
+    while (check_digit() == error_msg_e::NO_ERROR) {
         b = check_digit();
-    } while (check_digit() == error_msg_e::NO_ERROR);
+    }
     if (b == error_msg_e::END) {
         b = error_msg_e::NO_ERROR;
     }
@@ -142,28 +157,31 @@ error_msg_e Parser::validate_infix() {
     
     auto curr_char = expr[expr_runner];
 
-    std::cout << "Qual o digito agr: "<< curr_char << std::endl;
+    // std::cout << "Qual o digito agr: "<< curr_char << std::endl;
     
     if (curr_char == '0' or curr_char == '1' or curr_char == '2' or curr_char == '3' or
         curr_char == '4' or curr_char == '5' or curr_char == '6' or curr_char == '7' or
         curr_char == '8' or curr_char == '9') {
-            std::cout << "checando digito" << std::endl;
-            std::cout << "Runner (digit): " << expr_runner << std::endl;
+            // std::cout << "checando digito" << std::endl;
+            // std::cout << "Runner (digit): " << expr_runner << std::endl;
             return advance_runner();
             
-        } else if ( expr_runner == expr.size() or is_operator(curr_char) or is_wsp(curr_char)) {
+        } else if (curr_char == '-' and expr[expr_runner + 1] == '-') {
+            // std::cout << "char atual : " << curr_char <<  std::endl;
+            return error_msg_e::MISSING_TERM;
+        }
+         else if ( expr_runner == expr.size() or is_wsp(curr_char) or is_operator(curr_char)) {
                     return error_msg_e::END;
                    } 
-    
         else {
-            std::cout << "size : " <<expr.size() << std::endl;
-            return error_msg_e::EXTRA_SYMBOL_AFTER_EXPR;   // Placeholder return
+            // std::cout << "size : " <<expr.size() << std::endl;
+            return error_msg_e::MISSING_TERM;   // Placeholder return
         }
  }
  error_msg_e Parser::check_wsp() {
     auto situation {error_msg_e::NO_ERROR};
     while (is_wsp(expr[expr_runner])) {
-        std::cout << "Runner (wsp): " << expr_runner << std::endl;
+        // std::cout << "Runner (wsp): " << expr_runner << std::endl;
         situation = advance_runner();
     }
     return situation;
@@ -171,14 +189,14 @@ error_msg_e Parser::validate_infix() {
  error_msg_e Parser::check_operator() {
     if (expr[expr_runner] == '+' or expr[expr_runner] == '-' or expr[expr_runner] == '/'
         or expr[expr_runner] == '^' or expr[expr_runner] == '%' or expr[expr_runner] == '*') {
-            std::cout << "checando operador" << std::endl;
-            std::cout << expr.size() << std::endl;
+            // std::cout << "checando operador" << std::endl;
+            // std::cout << expr.size() << std::endl;
             return advance_runner();
-            std::cout << "Runner (op): " << expr_runner << std::endl;
+            // std::cout << "Runner (op): " << expr_runner << std::endl;
         }
     else if (expr_runner == expr.size() - 1){
-        std::cout << "ta aqui\n";
-        std::cout << expr.size() << std::endl;
+        // std::cout << "ta aqui\n";
+        // std::cout << expr.size() << std::endl;
         return error_msg_e::UNEXPECTED_END_EXPR;
     }
      else {

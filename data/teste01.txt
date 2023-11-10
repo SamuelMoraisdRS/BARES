@@ -1,0 +1,46 @@
+256
+
+256
+32
+122
+
+200
+-2
+15
+-15
+-5
+Missing <term> at column (2)!
+Missing <term> at column (2)!
+100
+Numeric overflow error!
+
+
+Undefined value!
+18
+-17
+-4
+4
+1
+20
+0
+
+Division by zero!
+8
+230
+Numeric overflow error!
+300
+-43
+28
+0
+
+8
+
+12
+
+-50
+
+-28
+Integer constant out of range beginning at column (13)!
+Integer constant out of range beginning at column (20)!
+Missing <term> at column (5)!
+Integer constant out of range beginning at column (26)!

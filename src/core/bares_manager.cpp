@@ -11,22 +11,30 @@ using namespace br;
         if (not empty_expression) {
             Parser validator(expression);
             auto outcome {validator.validate_infix()};
-            validator.formats_expression();
+            // outcome = validator.get_outcome();
+            
             auto error_pos {validator.get_error_col()};
-            outcome = validator.get_outcome();
-            std::cout << "Outcome (no manager) : " << outcome << "\n";
+            
+            // std::cout << "outcome: " << outcome << std::endl;
+            // std::cout << "Outcome (no manager) : " << outcome << "\n";
             if (outcome == error_msg_e::NO_ERROR) {
-                tokens = validator.get_tokens();
-                std::cout << "TAMANHO DO TOKENS " << tokens.size() << std::endl;
-                std::cout << "Tokens : \n";
-                for (std::string e : tokens) {
-                std::cout << e << std::endl;
+                validator.formats_expression();
+                if (validator.get_outcome() == INTEGER_OUT_OF_RANGE) {
+                    outcome = INTEGER_OUT_OF_RANGE;
+                    error_found = true;
+                    result = get_msg(outcome, error_pos) + "\n";
                 }
+                tokens = validator.get_tokens();
+                // std::cout << "TAMANHO DO TOKENS " << tokens.size() << std::endl;
+                // std::cout << "Tokens : \n";
+                // for (std::string e : tokens) {
+                 // std::cout << e << std::endl;
+                // }
             } else {
-                result = get_msg(outcome, error_pos);
+                result = get_msg(outcome, error_pos) + "\n";
                 error_found = true;
-                std::cout << "na funcao do bares\n";
-                std::cout << error_found << std::endl;
+                // std::cout << "na funcao do bares\n";
+                // std::cout << error_found << std::endl;
             }
         }
         
@@ -35,9 +43,9 @@ using namespace br;
 
     void BARES::calculate() {
         if (not error_found and not empty_expression) {
-            std::cout << "Convertendo...\n";
+            // std::cout << "Convertendo...\n";
             calc.convert_to_posfix(tokens);
-            result = calc.evaluate_expr();
+            result = calc.evaluate_expr() + "\n";
         // std::cout << "Expressão pós-fixa: " << test << std::endl;
         } else if (empty_expression) {
             result = expression;
