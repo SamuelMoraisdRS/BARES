@@ -74,32 +74,40 @@ error_msg_e Parser::validate_infix() {
 
     if (outcome != NO_ERROR) {
         // std::cout << "erro no primeiro check\n";
+        // std::cout << "erro no primeiro check\n";
         return outcome;
     }
-    // std::cout << "seguiu em frente\n";
+    // std::cout << "checou a primeira vez\n";
     
     check_wsp();
         
         // Se a expressão não acabou
-        while (expr_runner < expr.size() - 1) {
+        while (expr_runner < expr.size()) {
         outcome = check_operator();
         // std::cout << "passou na checagem do operador\n";
         if (outcome != error_msg_e::NO_ERROR) {
+            // std::cout << "erro no operador\n";
             break;
         }
+
+        
+        
         outcome = check_wsp();
         if (outcome != error_msg_e::NO_ERROR) {
             break;
         }
         
+        
         // std::cout << "ultimo check\n";
+        
         outcome = check_term();
         if (outcome != error_msg_e::NO_ERROR) {
+            // std::cout << "erro no segundo termo\n";
             break;
         }
-
+        
         outcome = check_wsp();
-        if (outcome != error_msg_e::NO_ERROR and outcome != error_msg_e::END) {
+        if (outcome != error_msg_e::NO_ERROR) {
             // std::cout << "outcome : " << outcome << std::endl;
             break;
         }
@@ -110,6 +118,7 @@ error_msg_e Parser::validate_infix() {
  
  error_msg_e Parser::check_term() {
     check_wsp();
+    // std::cout << "indice(wsp): " << expr_runner << std::endl;
     if (expr[expr_runner] == '(') {
         advance_runner();
         check_wsp();
@@ -137,13 +146,13 @@ error_msg_e Parser::validate_infix() {
  }
  error_msg_e Parser::check_natural_num() {
     error_msg_e b;
-    if (expr[expr_runner] == '-') {
+    if (expr[expr_runner] == '-' or expr_runner <! expr.size()) {
         // std::cout << "char atual: " << expr[expr_runner] <<std::endl;
         expr_runner ++;
         return MISSING_TERM;
-    }
+    } 
     b = check_digit();
-    while (check_digit() == error_msg_e::NO_ERROR) {
+    while (check_digit() == error_msg_e::NO_ERROR and expr_runner < expr.size()) {
         b = check_digit();
     }
     if (b == error_msg_e::END) {
@@ -159,30 +168,40 @@ error_msg_e Parser::validate_infix() {
 
     // std::cout << "Qual o digito agr: "<< curr_char << std::endl;
     
-    if (curr_char == '0' or curr_char == '1' or curr_char == '2' or curr_char == '3' or
-        curr_char == '4' or curr_char == '5' or curr_char == '6' or curr_char == '7' or
-        curr_char == '8' or curr_char == '9') {
+    if (is_digit(curr_char)) {
             // std::cout << "checando digito" << std::endl;
             // std::cout << "Runner (digit): " << expr_runner << std::endl;
+            has_operator = false;
             return advance_runner();
+
             
-        } else if (curr_char == '-' and expr[expr_runner + 1] == '-') {
+        } else if ((curr_char == '-' and expr[expr_runner + 1] == '-') or 
+                    curr_char == ' ' and not is_digit(expr[expr_runner - 1])) {
             // std::cout << "char atual : " << curr_char <<  std::endl;
             return error_msg_e::MISSING_TERM;
+        } else if (expr_runner == expr.size() and has_operator) {
+            expr_runner++;
+            return  MISSING_TERM;
         }
-         else if ( expr_runner == expr.size() or is_wsp(curr_char) or is_operator(curr_char)) {
+         else if ( (is_wsp(curr_char) and is_digit(expr[expr_runner-1])) or is_operator(curr_char)) {
+                    // std::cout << "parou de checar digito\n";
+                    // std::cout << "termo final: " << expr[expr_runner] << std::endl;
+                    // std::cout << "termo anterior: " << expr[expr_runner-1] << std::endl;
                     return error_msg_e::END;
                    } 
         else {
             // std::cout << "size : " <<expr.size() << std::endl;
-            return error_msg_e::MISSING_TERM;   // Placeholder return
+           
+                return error_msg_e::MISSING_TERM;
+           
+               // Placeholder return
         }
  }
  error_msg_e Parser::check_wsp() {
     auto situation {error_msg_e::NO_ERROR};
     while (is_wsp(expr[expr_runner])) {
         // std::cout << "Runner (wsp): " << expr_runner << std::endl;
-        situation = advance_runner();
+        situation = advance_runner();    
     }
     return situation;
  }
@@ -191,13 +210,21 @@ error_msg_e Parser::validate_infix() {
         or expr[expr_runner] == '^' or expr[expr_runner] == '%' or expr[expr_runner] == '*') {
             // std::cout << "checando operador" << std::endl;
             // std::cout << expr.size() << std::endl;
+
+            // if (expr_runner == expr.size() - 1) {
+            //     return MISSING_TERM;
+            // }
+            // std::cout << "operador atual: " << expr[expr_runner] << std::endl;
+            has_operator = true;
             return advance_runner();
             // std::cout << "Runner (op): " << expr_runner << std::endl;
         }
-    else if (expr_runner == expr.size() - 1){
+    else if (expr_runner == expr.size()){
         // std::cout << "ta aqui\n";
         // std::cout << expr.size() << std::endl;
-        return error_msg_e::UNEXPECTED_END_EXPR;
+        
+        expr_runner++;
+        return error_msg_e::EXTRA_SYMBOL_AFTER_EXPR;
     }
      else {
         return NO_ERROR;

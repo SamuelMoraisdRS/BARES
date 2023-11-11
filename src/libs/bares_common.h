@@ -50,6 +50,8 @@ bool is_operator(char term);
 
 bool is_wsp(const char & term);
 
+bool is_digit(char term);
+
 /// Values attributed to each operation. Will be used to determine the precedence between two operators
 enum class operator_e {
 SUM = 0,

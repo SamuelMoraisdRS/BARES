@@ -13,8 +13,6 @@ Missing <term> at column (2)!
 Missing <term> at column (2)!
 100
 Numeric overflow error!
-
-
 Undefined value!
 18
 -17
@@ -23,7 +21,6 @@ Undefined value!
 1
 20
 0
-
 Division by zero!
 8
 230
@@ -44,3 +41,65 @@ Integer constant out of range beginning at column (13)!
 Integer constant out of range beginning at column (20)!
 Missing <term> at column (5)!
 Integer constant out of range beginning at column (26)!
+Missing <term> at column (1)!
+Missing <term> at column (4)!
+Missing <term> at column (4)!
+Missing <term> at column (4)!
+Missing <term> at column (5)!
+Missing <term> at column (5)!
+Missing <term> at column (5)!
+Missing <term> at column (8)!
+Missing <term> at column (8)!
+Missing <term> at column (8)!
+Missing <term> at column (8)!
+Missing <term> at column (8)!
+Missing <term> at column (8)!
+Missing <term> at column (2)!
+Missing <term> at column (1)!
+Missing <term> at column (2)!
+Missing <term> at column (2)!
+Missing <term> at column (2)!
+Missing <term> at column (0)!
+Missing <term> at column (0)!
+Missing <term> at column (0)!
+7
+-1
+12
+0
+3
+
+
+12
+
+600
+
+
+299
+Missing <term> at column (0)!
+Missing <term> at column (3)!
+Missing <term> at column (6)!
+Missing <term> at column (8)!
+Missing closing ”)” at column (17)!
+Missing closing ”)” at column (20)!
+Missing closing ”)” at column (31)!
+Missing closing ”)” at column (33)!
+Missing closing ”)” at column (39)!
+Missing closing ”)” at column (45)!
+Missing closing ”)” at column (51)!
+
+-28
+
+24
+
+Division by zero!
+
+Division by zero!
+
+Division by zero!
+
+0
+Numeric overflow error!
+Numeric overflow error!
+Numeric overflow error!
+Missing <term> at column (1)!
+      Missing closing ”)” at column (5)!

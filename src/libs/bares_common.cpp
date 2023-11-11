@@ -25,3 +25,9 @@ bool is_wsp(const char & term) {
     return (term == ' ' or term == '\t');
 }
 
+bool is_digit(char term) {
+    return (term == '0' or term == '1' or term == '2' or term == '3' or
+        term == '4' or term == '5' or term == '6' or term == '7' or
+        term == '8' or term == '9'); 
+}
+
