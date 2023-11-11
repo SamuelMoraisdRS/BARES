@@ -99,12 +99,14 @@ error_msg_e Parser::validate_infix() {
         
         
         // std::cout << "ultimo check\n";
-        
+        // std::cout << "ch eca termo: \n";
         outcome = check_term();
         if (outcome != error_msg_e::NO_ERROR) {
             // std::cout << "erro no segundo termo\n";
             break;
         }
+        // std::cout << "outcome do termo: " << msgs[outcome] << std::endl;
+        
         
         outcome = check_wsp();
         if (outcome != error_msg_e::NO_ERROR) {
@@ -118,6 +120,7 @@ error_msg_e Parser::validate_infix() {
  
  error_msg_e Parser::check_term() {
     check_wsp();
+   
     // std::cout << "indice(wsp): " << expr_runner << std::endl;
     if (expr[expr_runner] == '(') {
         advance_runner();
@@ -126,7 +129,10 @@ error_msg_e Parser::validate_infix() {
         check_wsp();
         // std::cout << "chegou no parentese de fechamento\n";
         if (expr[expr_runner] != ')') {
+            // expr_runner++;
+            // std::cout << "indice atual: " << expr_runner << '\n';
             return error_msg_e::MISSING_LP;
+            // std::cout << "saiu do erro lp\n";
         } else {
             advance_runner();
             return NO_ERROR;
@@ -148,7 +154,7 @@ error_msg_e Parser::validate_infix() {
     error_msg_e b;
     if (expr[expr_runner] == '-' or expr_runner <! expr.size()) {
         // std::cout << "char atual: " << expr[expr_runner] <<std::endl;
-        expr_runner ++;
+        
         return MISSING_TERM;
     } 
     b = check_digit();
@@ -175,15 +181,16 @@ error_msg_e Parser::validate_infix() {
             return advance_runner();
 
             
-        } else if ((curr_char == '-' and expr[expr_runner + 1] == '-') or 
+        } /* else if ((curr_char == '-' and expr[expr_runner + 1] == '-') or 
                     curr_char == ' ' and not is_digit(expr[expr_runner - 1])) {
             // std::cout << "char atual : " << curr_char <<  std::endl;
+            expr_runner++;
             return error_msg_e::MISSING_TERM;
         } else if (expr_runner == expr.size() and has_operator) {
             expr_runner++;
             return  MISSING_TERM;
-        }
-         else if ( (is_wsp(curr_char) and is_digit(expr[expr_runner-1])) or is_operator(curr_char)) {
+        } */
+         else if ( (is_wsp(curr_char) and is_digit(expr[expr_runner-1])) or is_operator(curr_char) and is_digit(expr[expr_runner-1])) {
                     // std::cout << "parou de checar digito\n";
                     // std::cout << "termo final: " << expr[expr_runner] << std::endl;
                     // std::cout << "termo anterior: " << expr[expr_runner-1] << std::endl;
@@ -191,7 +198,7 @@ error_msg_e Parser::validate_infix() {
                    } 
         else {
             // std::cout << "size : " <<expr.size() << std::endl;
-           
+                
                 return error_msg_e::MISSING_TERM;
            
                // Placeholder return
@@ -206,6 +213,7 @@ error_msg_e Parser::validate_infix() {
     return situation;
  }
  error_msg_e Parser::check_operator() {
+    // std::cout << "operador atual: " << expr[expr_runner] << "\n";
     if (expr[expr_runner] == '+' or expr[expr_runner] == '-' or expr[expr_runner] == '/'
         or expr[expr_runner] == '^' or expr[expr_runner] == '%' or expr[expr_runner] == '*') {
             // std::cout << "checando operador" << std::endl;
@@ -227,6 +235,7 @@ error_msg_e Parser::validate_infix() {
         return error_msg_e::EXTRA_SYMBOL_AFTER_EXPR;
     }
      else {
-        return NO_ERROR;
+        // expr_runner++;
+        return EXTRA_SYMBOL_AFTER_EXPR;
     }
  }

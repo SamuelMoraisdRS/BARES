@@ -4,25 +4,37 @@ using namespace br;
     void BARES::parses() {
 
         // Checks if the expression is empty
-        if (expression.find_first_not_of(' ') == std::string::npos) {
+        bool char_check {false};
+        for (char c : expression) {
+            if (c!=' ' or c != '\n') {
+                char_check = true;
+            }
+        }
+        if (char_check == false) {
             empty_expression = true;
         }
-        
+
         if (not empty_expression) {
             Parser validator(expression);
             auto outcome {validator.validate_infix()};
             // outcome = validator.get_outcome();
             
             auto error_pos {validator.get_error_col()};
+
+            if (outcome == EXTRA_SYMBOL_AFTER_EXPR or outcome == MISSING_TERM
+                or outcome == MISSING_LP) {
+                error_pos++;
+            }
             
-            // std::cout << "outcome: " << outcome << std::endl;
-            // std::cout << "Outcome (no manager) : " << outcome << "\n";
+
             if (outcome == error_msg_e::NO_ERROR) {
                 validator.formats_expression();
                 if (validator.get_outcome() == INTEGER_OUT_OF_RANGE) {
+
                     outcome = INTEGER_OUT_OF_RANGE;
+                    error_pos = validator.get_error_col() + 1;
                     error_found = true;
-                    result = get_msg(outcome, error_pos) + "\n";
+                    result = get_msg(outcome, error_pos);
                 }
                 tokens = validator.get_tokens();
                 // std::cout << "TAMANHO DO TOKENS " << tokens.size() << std::endl;
@@ -31,11 +43,14 @@ using namespace br;
                  // std::cout << e << std::endl;
                 // }
             } else {
-                result = get_msg(outcome, error_pos) + "\n";
+                result = get_msg(outcome, error_pos);
                 error_found = true;
                 // std::cout << "na funcao do bares\n";
                 // std::cout << error_found << std::endl;
             }
+        } else {
+            error_found = true;
+            result = get_msg(UNEXPECTED_END_EXPR, expression.size());
         }
         
     }
@@ -45,7 +60,7 @@ using namespace br;
         if (not error_found and not empty_expression) {
             // std::cout << "Convertendo...\n";
             calc.convert_to_posfix(tokens);
-            result = calc.evaluate_expr() + "\n";
+            result = calc.evaluate_expr();
         // std::cout << "Expressão pós-fixa: " << test << std::endl;
         } else if (empty_expression) {
             result = expression;
