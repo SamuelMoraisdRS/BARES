@@ -16,14 +16,15 @@ int main () {
 
     expression.calculate(); // retorna o resultado da expressao ou um erro
 
-    auto a {expression.get_result()};
+    // auto a {expression.get_result()};
 
-     while (a.find('\n') != std::string::npos) {
-        a.erase(a.find('\n'));
-    }
+    //  while (a.find('\n') != std::string::npos) {
+    //     a.erase(a.find('\n'));
+    // }
 
 
-    std::cout << a + "\n";   // resultado ou mensagem de erro
+    // std::cout << a + "\n";   // resultado ou mensagem de erro
+    std::cout << expression.get_result() << "\n";
     }
 
 }
