@@ -22,7 +22,8 @@ private:
     Calculator calc;                    //!< Calculates the formatted expression
     std::string result;                 //!< Final expression returned to user
     bool error_found = false;           //!< Indicates if an error was found in the parsing process
-    std::vector<std::string> tokens;    
+    std::vector<std::string> tokens;    //!< Expression split into tokens
+    bool empty_expression = false;      //!< Flag that indicates if the expression is empty 
 public:
     ///Ctro
     BARES(std::string input) : expression {input} {

@@ -4,9 +4,11 @@
 int main () {
     
 
-    std::string input;
+    std::string input {" "};
 
-    while (getline (std::cin, input)) {
+    while (std::getline(std::cin, input)) {
+    
+   
 
     br::BARES expression(input);
 
@@ -14,7 +16,15 @@ int main () {
 
     expression.calculate(); // retorna o resultado da expressao ou um erro
 
-    std::cout << expression.get_result() << std::endl;   // resultado ou mensagem de erro
+    // auto a {expression.get_result()};
+
+    //  while (a.find('\n') != std::string::npos) {
+    //     a.erase(a.find('\n'));
+    // }
+
+
+    // std::cout << a + "\n";   // resultado ou mensagem de erro
+    std::cout << expression.get_result() << "\n";
     }
 
 }

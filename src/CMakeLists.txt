@@ -17,15 +17,13 @@ set( CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} ${GCC_COMPILE_FLAGS} ${PREPROCESSING_F
 #Include dir
 include_directories( libs )
 add_executable(bares
-    "core/bares_manager.cpp"
-    "core/calculate.h"
-    "core/parser.cpp"
-    "core/main.cpp"
     "libs/bares_common.cpp"
     "libs/tokenizer.cpp"
-    # "libs/data_structs.cpp"
-    "libs/data_structs.h"
-
+    "libs/data_structs.h"    
+    "core/calculate.cpp"
+    "core/parser.cpp"
+    "core/bares_manager.cpp"
+    "core/main.cpp"
 )
 
 target_compile_features( bares PUBLIC cxx_std_17 )
