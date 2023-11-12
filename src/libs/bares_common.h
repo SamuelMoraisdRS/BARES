@@ -1,20 +1,21 @@
 
-#ifndef __MSGS__
-#define __MSGS__
+#ifndef __COMMON__
+#define __COMMON__
 #include <string>
 
-const std::string msgs [8] {
-        "Missing <term> at column (",
-        "Unexpected end of expression at column (",
-        "Extra symbol after valid expression found at column (",
-        "Missing closing ”)” at column (",
-        "Integer constant out of range beginning at column (",
-        "Undefined value!",
-        "Division by zero!",
-        "Numeric overflow error!"
-    };
+    //!< Array containing the possible error msgs
+    const std::string msgs [8] {
+            "Missing <term> at column (",
+            "Unexpected end of expression at column (",
+            "Extra symbol after valid expression found at column (",
+            "Missing closing ”)” at column (",
+            "Integer constant out of range beginning at column (",
+            "Undefined value!",
+            "Division by zero!",
+            "Numeric overflow error!"
+        };
 
-    /// Tracks the error type
+    //!< Tracks the error type
     enum  error_msg_e : short {
         MISSING_TERM = 0,
         UNEXPECTED_END_EXPR,
@@ -37,19 +38,14 @@ const std::string msgs [8] {
 /// @param col  The collumn in which the error has been found
 std::string get_msg(const short & msg_idx, const short & col);
 
-#endif
-
-#ifndef __OPERATORS__
-#define __OPERATORS__
-
-
 /// These functions return 'true' if the element is an operator
 /// @param term The term that will be checked
 bool is_operator(std::string term);
 bool is_operator(char term);
 
+/// Returns 'true' if 'term' a whitespace character (' ' or '\t')
 bool is_wsp(const char & term);
-
+/// Returns 'true' if 'term' is a digit 
 bool is_digit(char term);
 
 /// Values attributed to each operation. Will be used to determine the precedence between two operators
@@ -62,7 +58,5 @@ MOD = 1,
 POW
 };
 
-
-
-#endif
+#endif // __COMMON__
 

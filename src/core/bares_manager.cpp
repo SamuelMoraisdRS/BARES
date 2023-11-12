@@ -6,7 +6,7 @@ using namespace br;
         // Checks if the expression is empty
         bool char_check {false};
         for (char c : expression) {
-            if (c!=' ' or c != '\n') {
+            if (c !=' ') {
                 char_check = true;
             }
         }
@@ -50,7 +50,7 @@ using namespace br;
             }
         } else {
             error_found = true;
-            result = get_msg(UNEXPECTED_END_EXPR, expression.size());
+            result = get_msg(UNEXPECTED_END_EXPR, expression.size() + 1);
         }
         
     }
@@ -62,8 +62,6 @@ using namespace br;
             calc.convert_to_posfix(tokens);
             result = calc.evaluate_expr();
         // std::cout << "Expressão pós-fixa: " << test << std::endl;
-        } else if (empty_expression) {
-            result = expression;
         } else {
 
         }

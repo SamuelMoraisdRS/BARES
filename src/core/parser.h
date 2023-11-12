@@ -15,7 +15,6 @@ private:
     StrTokenizer tokenizer;                             //!< Splits the expression into tokens
     std::vector<std::string> tokens;                    //!< List of tokens containing the expression's elements
     error_msg_e outcome = error_msg_e::NO_ERROR;        //!< Variable that'll indicate if the validation was succesful/what error occurred
-    bool has_operator = false;
 public:
     Parser(std::string & e) : expr {e} {
 

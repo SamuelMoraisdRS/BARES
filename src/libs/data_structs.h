@@ -30,10 +30,8 @@ namespace ds
                 data.erase(data.begin());
                 return first;
             }
+            return data[0];
         }
-
-        /// 
-    
         /// Returns the number of elements in the queue
         int size() {
             return data.size();
