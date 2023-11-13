@@ -24,15 +24,15 @@ public:
     /// Formats the validated expression and tokenizes them.
     void formats_expression();
     /// Returns the token list
-    std::vector<std::string> get_tokens() {
+    std::vector<std::string> get_tokens() const {
         return tokens;
     }
     /// Returns the collumn in which an error was detected
-    int get_error_col() {
+    int get_error_col() const {
         return expr_runner;
     }
-
-    error_msg_e get_outcome() {
+    /// Returns the outcome 
+    error_msg_e get_outcome() const {
         return outcome;
     }
 private:

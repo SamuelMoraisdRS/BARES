@@ -2,6 +2,7 @@
 
 namespace ds
 {
+    /// Queue class developed specifically for this BARES project 
     template <typename ValueType>
     class Queue {
     private:
@@ -10,7 +11,6 @@ namespace ds
         Queue() = default;
         ~Queue() = default;
         
-
         std::vector<ValueType> data;
         Queue<ValueType> operator=(const std::vector<ValueType> &source) {
             data = source;
@@ -40,13 +40,15 @@ namespace ds
         bool empty() {
             return data.empty();
         }
-
+        /// Returns iterator to the first element of the queue 
         ValueType * begin() {
-            return &data[0];
+            return data.begin();
         }
+        /// Returns iterator to the last element of the queue
         ValueType *end() {
-            return &data[data.size() - 1];
+            return data.end();
         }
+        /// Returns value of the last elment of the queue
         ValueType back () {
             return data.back();
         }
@@ -55,18 +57,17 @@ namespace ds
     template <typename ValueType>
     class Stack {
     private:
-        
+    std::vector<ValueType> data;
 
     public:
         Stack() = default;
         ~Stack() = default;
 
-
-        std::vector<ValueType> data;
-        
-        ValueType get_upper() {
+        /// Returns a constant variable of the top element of the stack  
+        ValueType get_upper() const {
             return data.back();
         }
+        /// Inserts a element at the top of the stack 
         void push(const ValueType &a) {
             data.push_back(a);
         }
@@ -77,7 +78,7 @@ namespace ds
             return last;
         }
         /// A 'pop' method intended specifically for this BARES implementation.
-        /// It returns a pair of the two upper elements of the stack
+        /// It returns a pair of the two upper elements of the stack.
         std::pair<ValueType, ValueType> pop_operands() {
             ValueType value1{pop()};
             ValueType value2{pop()};
