@@ -60,7 +60,7 @@ private:
 public:
     /// Converts the infiz expression expression into its posfix counterpart
     /// @param a The vector representing the infix expression
-    error_msg_e convert_to_posfix(std::vector<std::string> a);
+    void convert_to_posfix(std::vector<std::string> a);
     
     /// Evaluates the posfix expression
     /// @return The expression's result, as a std::string object

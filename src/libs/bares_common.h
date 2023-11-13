@@ -28,7 +28,6 @@
         NO_ERROR = 10,
         END
     };
-
     
     const int UPPER_VALUE_RANGE {32767};    //!< The maximum integer accepted in an expression
     const int LOWER_VALUE_RANGE {-32768};   //!< The minimum integer accepted in an expression

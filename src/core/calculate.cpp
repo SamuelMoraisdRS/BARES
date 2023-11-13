@@ -4,8 +4,6 @@ using namespace ds;
 
 bool Calculator::higher_precedence (std::string a, std::string b) {
         operator_e operatorA, operatorB;
-        // std::cout <<  "operador a: " << a << std::endl;
-        // std::cout <<  "operador b: " << b << std::endl;
         if (a == "+") {operatorA = operator_e::SUM;}
         if (a == "-") {operatorA = operator_e::MINUS;}
         if (a == "/") {operatorA = operator_e::DIV;}
@@ -89,6 +87,7 @@ bool Calculator::higher_precedence (std::string a, std::string b) {
             }
             return pow(b,a);
         }
+        return 0;
     }
 
 
@@ -123,7 +122,7 @@ bool Calculator::higher_precedence (std::string a, std::string b) {
             } 
     }
 
-    error_msg_e Calculator::convert_to_posfix(std::vector<std::string> a) {
+    void Calculator::convert_to_posfix(std::vector<std::string> a) {
         // Fills the infix expression queue
         for (std::string e : a) {
             infix_queue.enqueue(e);
@@ -137,7 +136,6 @@ bool Calculator::higher_precedence (std::string a, std::string b) {
             if (term == "(") {
                 convert_nested_expr(operator_stck);
             } else if (not is_operator(term)) {    
-                // std::cout << "termo atual (fora dos parenteses): " << term << "\n";
                 posfix_expr.enqueue(term);
             } else if (operator_stck.empty()) {
                 operator_stck.push(term);
@@ -152,6 +150,7 @@ bool Calculator::higher_precedence (std::string a, std::string b) {
         while (not operator_stck.empty()) {
             posfix_expr.enqueue(operator_stck.pop());
         }
+
      }
     
     std::string Calculator::evaluate_expr() {
