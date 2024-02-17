@@ -6,12 +6,10 @@ namespace ds
     template <typename ValueType>
     class Queue {
     private:
-    
+        std::vector<ValueType> data;
     public:
         Queue() = default;
         ~Queue() = default;
-        
-        std::vector<ValueType> data;
         Queue<ValueType> operator=(const std::vector<ValueType> &source) {
             data = source;
             return *this;
@@ -45,7 +43,7 @@ namespace ds
             return data.begin();
         }
         /// Returns iterator to the last element of the queue
-        ValueType *end() {
+        ValueType * end() {
             return data.end();
         }
         /// Returns value of the last elment of the queue

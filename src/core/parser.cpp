@@ -4,19 +4,11 @@
 error_msg_e Parser::validate_infix() {
     
     auto res {check_expression()};
-   
-//    std::cout << "res: "<< res << std::endl;
-
     outcome = res;
     return res;  
-    
-
-     
 }
  
  void Parser::formats_expression() {
-    
-
     // Necessary to correctly index the out of range integer error
     auto expr_backup {expr};
     auto sz {expr.size()};
@@ -29,7 +21,6 @@ error_msg_e Parser::validate_infix() {
         if (is_operator(e) or e == "(" or e == ")") {
             expr.insert(i, " ");
             expr.insert(i + 2, " ");
-
             i +=2;
             sz += 2;
         }
@@ -63,7 +54,7 @@ error_msg_e Parser::validate_infix() {
 
  error_msg_e Parser::check_expression() {
 
-    //If expr has only one term
+    //If the expression has only one term
     outcome = check_term();
 
     if (outcome != NO_ERROR) {
@@ -79,8 +70,6 @@ error_msg_e Parser::validate_infix() {
             break;
         }
 
-        
-        
         outcome = check_wsp();
         if (outcome != error_msg_e::NO_ERROR) {
             break;

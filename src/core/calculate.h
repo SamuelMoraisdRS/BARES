@@ -34,7 +34,6 @@ private:
     bool higher_precedence (std::string a, std::string b);
 
     // == Operations
-    
     int div (const int & a, const int & b);
     int mult (const int & a, const int & b);
     int sum (const int & a, const int & b);

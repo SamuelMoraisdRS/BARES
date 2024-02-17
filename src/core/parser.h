@@ -16,6 +16,7 @@ private:
     std::vector<std::string> tokens;                    //!< List of tokens containing the expression's elements
     error_msg_e outcome = error_msg_e::NO_ERROR;        //!< Variable that'll indicate if the validation was succesful/what error occurred
 public:
+    /// Ctro 
     Parser(std::string & e) : expr {e} {
 
     };
@@ -41,7 +42,6 @@ private:
  std::string tokenize_expr();
 
 //== These methods will be used to check the EBNF grammar
-
  error_msg_e check_expression();
  error_msg_e check_term();
  error_msg_e check_int();
