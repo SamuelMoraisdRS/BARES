@@ -1,18 +1,38 @@
-[![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-24ddc0f5d75046c5622901739e7c5dd533143b0c8e959d652212380cedb1ea36.svg)](https://classroom.github.com/a/OQflqk2C)
-﻿# Projeto de Programação BARES (_Basic ARithmetic Expression Evaluator based on Stacks_)
 
-# Apresentação
+# BARES
 
-Nesse trabalho você terá a oportunidade de implementar um avaliador de expressões simples.
-A descrição completa do trabalho se encontra [**aqui**](docs/bares.pdf).
+This project is an implementation of a simple arithmetic expression evaluator made as a part of my Programming I course, under the guidance of professor Selan Rodrigues do Santos.
 
-Além da implementação do trabalho você precisa fornecer algumas informações no arquivo [author.md](author.md), indicando a autoria do trabalho e quais itens da tarefa foram realizados com sucesso. 
+# About the Program
 
-# Submissão do Trabalho
+The BARES CLI application aims to solve simple arithmetic expressions. The program supports:
 
-A submissão do trabalho deve ser feita de 2 formas:
-1. Crie um arquivo compactado com todo o código fonte utilizado para gerar o programa _bares_ e envie esse arquivo via Tarefa Virtual do SIGAA. **Não esqueça de remover a pasta `build` com todos os executáveis antes de compactar!!!**, OU
-2. Registre (_commit_) todo o seu trabalho para o repositório do GitHub Classroom associado a esse projeto. Neste caso não esqueça de enviar também pela Tarefa Virtual do SIGAA o link para o repositório.
+* The **+**, **-**, __*__, **/**, **^** and **%** operations, accounting for their due precedences.
+* Operations with integer values between -32.768 and 32.767. 
 
+# What was learned
+
+The making of this project involved the usage of these attributes:
+
+* OOP;
+* Implementation and usage of the *queue* and *stack* data structures;
+* String formatting and manipulation;
+* Extensive exception handling;
+* Recursive chain of methods to correctly convert the expressions to their postfix representation and to spot syntactical errors, according to the [EBNF Grammar](https://en.wikipedia.org/wiki/Extended_Backus%E2%80%93Naur_form).
+
+# Compiling and running
+ This project can be compiled with the [CMake build tool](https://cmake.org/). To do so, follow the steps:
+
+1. From the `/src` directory (which contains the CMake script), insert this command line into the terminal to configurate the project:
+
+    `cmake -S . -B build`
+
+2. Afterwards, you can compile by inserting:
+
+    `cmake --build build`
+
+3. Now, from the new `build` directory, you can run the executable by only using the command:
+
+    `./bares`
 --------
-&copy; DIMAp/UFRN 2022.
+
